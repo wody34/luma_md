@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="luma_canvas">#0E0D13</color>
+    <color name="luma_accent">#A98AFB</color>
+    <color name="luma_icon_background">#17141F</color>
+</resources>

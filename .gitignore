@@ -1,0 +1,14 @@
+app/build/
+macos/.build/
+macos/.swiftpm/
+macos/build/
+.local/
+.DS_Store
+*.jks
+*.keystore
+.idea/
+*.iml
+.omo/
+.senpi/
+.pi/
+.claude/
