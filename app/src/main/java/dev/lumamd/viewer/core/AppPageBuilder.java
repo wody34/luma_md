@@ -21,11 +21,11 @@ public final class AppPageBuilder {
                 .append("</div></section>")
                 .append("<section class=\"feature-panel\" aria-label=\"What makes Luma different\">")
                 .append(feature(AppIcons.file(), "Local by design",
-                        "Choose a file with Android’s secure picker. No broad storage access."))
+                        "Choose a file from your device. Luma MD reads only what you open."))
                 .append(feature(AppIcons.focus(), "Made for reading",
                         "A calm column, useful outline, and responsive type controls."))
                 .append(feature(AppIcons.shield(), "Safer links",
-                        "Markup is escaped and unknown URL schemes never become tappable."))
+                        "Unrecognized links stay safely inside your note."))
                 .append("</section>")
                 .append("<p class=\"privacy-note\">")
                 .append(AppIcons.lock()).append("Nothing leaves your device.</p>")
@@ -149,8 +149,8 @@ public final class AppPageBuilder {
                 + AppIcons.copy() + "<span>Copy</span></a>"
                 + "<a href=\"luma://share\" aria-label=\"Share Markdown\">"
                 + AppIcons.share() + "<span>Share</span></a>"
-                + "<a href=\"#actions\" aria-label=\"Open reader actions\">"
-                + AppIcons.actions() + "<span>Actions</span></a>"
+                + "<a href=\"#actions\" aria-label=\"More reading tools\">"
+                + AppIcons.actions() + "<span>More</span></a>"
                 + "<a href=\"luma://open\" aria-label=\"Open markdown\">"
                 + AppIcons.folder() + "<span>Open</span></a>"
                 + "</nav>";
@@ -158,27 +158,27 @@ public final class AppPageBuilder {
 
     private static String actionsSheet(int typeScale) {
         String typeLabel = typeScale == 92 ? "Small" : typeScale == 112 ? "Large" : "Default";
-        return "<aside id=\"actions\" class=\"actions-sheet\" aria-label=\"Reader actions\">"
+        return "<aside id=\"actions\" class=\"actions-sheet\" aria-label=\"Reading tools\">"
                 + "<div class=\"actions-card\"><div class=\"actions-head\">"
-                + "<div><span class=\"eyebrow\">CURRENT NOTE</span><h2>Actions</h2></div>"
+                + "<div><span class=\"eyebrow\">CURRENT NOTE</span><h2>Reading tools</h2></div>"
                 + "<a class=\"icon-button\" href=\"#reader\" aria-label=\"Close reader actions\">"
                 + AppIcons.close() + "</a></div><nav class=\"action-list\">"
                 + actionItem(
                         "#outline",
                         "Outline",
                         "Open document outline",
-                        "Jump to headings in the current note.",
+                        "Jump to a section in this note.",
                         AppIcons.outline())
                 + actionItem(
                         "luma://type",
                         "Text size",
                         "Change text size",
-                        "Current: " + typeLabel + ". Tap to change.",
+                        typeLabel + " · Tap to change.",
                         AppIcons.type())
                 + actionItem(
                         "luma://paste",
                         "New memo from clipboard",
-                        "Render clipboard text as a temporary Markdown memo.",
+                        "Start a new note from copied text.",
                         AppIcons.clipboard())
                 + "</nav></div></aside>";
     }

@@ -8,20 +8,26 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Insets;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.webkit.SafeBrowsingResponse;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import dev.lumamd.viewer.core.AppPageBuilder;
 import dev.lumamd.viewer.core.MarkdownDocument;
 import dev.lumamd.viewer.core.MarkdownRenderer;
+import dev.lumamd.viewer.core.SafeAreaInsets;
 import dev.lumamd.viewer.core.WebNavigationPolicy;
 
 import java.io.IOException;
@@ -38,6 +44,7 @@ public final class MainActivity extends Activity {
     private final AppPageBuilder pageBuilder = new AppPageBuilder();
 
     private SharedPreferences preferences;
+    private FrameLayout rootView;
     private WebView webView;
     private MarkdownDocument currentDocument;
     private String currentFilename;
@@ -53,7 +60,12 @@ public final class MainActivity extends Activity {
         typeScale = preferences.getInt(PREF_TYPE_SCALE, 100);
 
         webView = createWebView();
-        setContentView(webView);
+        rootView = new FrameLayout(this);
+        rootView.addView(webView, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        setContentView(rootView);
+        applySystemBarInsets(rootView);
         applyWindowTheme();
 
         if (!openFromIntent(getIntent())) {
@@ -126,6 +138,47 @@ public final class MainActivity extends Activity {
         return view;
     }
 
+    private void applySystemBarInsets(final View content) {
+        View decorView = getWindow().getDecorView();
+        decorView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public WindowInsets onApplyWindowInsets(View target, WindowInsets insets) {
+                WindowInsets rootInsets = target.getRootWindowInsets();
+                SafeAreaInsets safeInsets = resolveSafeAreaInsets(
+                        rootInsets == null ? insets : rootInsets);
+                if (content.getPaddingLeft() != safeInsets.getLeft()
+                        || content.getPaddingTop() != safeInsets.getTop()
+                        || content.getPaddingRight() != safeInsets.getRight()
+                        || content.getPaddingBottom() != safeInsets.getBottom()) {
+                    content.setPadding(
+                            safeInsets.getLeft(),
+                            safeInsets.getTop(),
+                            safeInsets.getRight(),
+                            safeInsets.getBottom());
+                }
+                return insets;
+            }
+        });
+        decorView.requestApplyInsets();
+    }
+
+    private static SafeAreaInsets resolveSafeAreaInsets(WindowInsets insets) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            return SafeAreaInsets.none();
+        }
+        Insets systemBars = insets.getInsets(WindowInsets.Type.systemBars());
+        Insets displayCutout = insets.getInsets(WindowInsets.Type.displayCutout());
+        return SafeAreaInsets.resolve(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom,
+                displayCutout.left,
+                displayCutout.top,
+                displayCutout.right,
+                displayCutout.bottom);
+    }
+
     private boolean openFromIntent(Intent intent) {
         if (intent == null || !Intent.ACTION_VIEW.equals(intent.getAction())) {
             return false;
@@ -180,7 +233,10 @@ public final class MainActivity extends Activity {
             renderCurrentDocument();
         } catch (IOException | SecurityException error) {
             currentDocument = null;
-            Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(
+                    this,
+                    "This note could not be opened. Check that the file is available and readable.",
+                    Toast.LENGTH_LONG).show();
             renderWelcome();
         }
     }
@@ -292,6 +348,8 @@ public final class MainActivity extends Activity {
     }
 
     private void applyWindowTheme() {
+        rootView.setBackgroundColor(Color.parseColor(
+                "light".equals(theme) ? "#F3F0F7" : "#0E0D13"));
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             return;
         }

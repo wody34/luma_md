@@ -68,7 +68,7 @@ struct WelcomeView: View {
                 .lineSpacing(-3)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text("Open local Markdown, keep its structure intact, and read without accounts, analytics, or network access.")
+            Text("Open local Markdown, keep its structure intact, and read without accounts, distractions, or leaving your Mac.")
                 .font(.system(size: compact ? 15 : 17))
                 .foregroundStyle(.secondary)
                 .lineSpacing(5)
@@ -94,7 +94,7 @@ struct WelcomeView: View {
                 if hasRecentDocument {
                     actionCard(
                         title: "Continue Reading",
-                        detail: "Return to your most recent local note.",
+                        detail: "Return to your most recent note.",
                         icon: "clock.arrow.circlepath",
                         identifier: "welcome-recent",
                         compact: compact,
@@ -103,7 +103,7 @@ struct WelcomeView: View {
                 }
                 actionCard(
                     title: "Paste Clipboard",
-                    detail: "Render copied Markdown as a temporary memo.",
+                    detail: "Start a new note from copied text.",
                     icon: "doc.on.clipboard",
                     identifier: "welcome-paste",
                     compact: compact,
@@ -150,7 +150,7 @@ struct WelcomeView: View {
 
     private var privacy: some View {
         Label(
-            "Your notes stay on this Mac. Luma MD has no network entitlement.",
+            "Your notes stay local until you choose to share.",
             systemImage: "lock.shield"
         )
         .font(.system(size: 12))

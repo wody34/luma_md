@@ -28,7 +28,11 @@ public final class AppPageBuilderTest {
         assertContains(html, "aria-label=\"Open markdown\"");
         assertContains(html, "href=\"luma://theme\"");
         assertContains(html, "Nothing leaves your device.");
+        assertContains(html, "Luma MD reads only what you open.");
+        assertContains(html, "Unrecognized links stay safely inside your note.");
+        assertNotContains(html, "URL schemes");
         assertContains(html, "--canvas:#0E0D13");
+        assertNotContains(html, "padding-top:max(24px");
         assertContains(html, ".brand{min-width:0;min-height:48px");
         assertContains(html, ".privacy-note{display:flex");
         assertContains(html, "font-size:12px;font-weight:750");
@@ -104,6 +108,12 @@ public final class AppPageBuilderTest {
     private static void assertContains(String actual, String expected) {
         if (!actual.contains(expected)) {
             throw new AssertionError("Expected output to contain: " + expected);
+        }
+    }
+
+    private static void assertNotContains(String actual, String unexpected) {
+        if (actual.contains(unexpected)) {
+            throw new AssertionError("Expected output not to contain: " + unexpected);
         }
     }
 }

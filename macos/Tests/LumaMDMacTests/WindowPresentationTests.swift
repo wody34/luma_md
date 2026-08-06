@@ -27,4 +27,10 @@ final class WindowPresentationTests: XCTestCase {
         XCTAssertTrue(window.frame.width <= availableFrame.width)
         XCTAssertTrue(window.frame.height <= availableFrame.height)
     }
+
+    func testClosingTheLastWindowTerminatesTheApplication() {
+        XCTAssertTrue(
+            AppDelegate().applicationShouldTerminateAfterLastWindowClosed(.shared)
+        )
+    }
 }

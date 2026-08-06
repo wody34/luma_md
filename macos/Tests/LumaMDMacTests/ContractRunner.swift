@@ -37,11 +37,16 @@ public enum MacContractRunner {
         }
         try run(WindowPresentationTests()) { test in
             test.testAdaptiveBorderlessPresentationKeepsNativeWindowCapabilities()
+            test.testClosingTheLastWindowTerminatesTheApplication()
         }
         try run(ReaderDockViewTests()) { test in
             test.testPrimaryReaderDockExposesDedicatedOutlineButton()
+            test.testOutlinePanelStaysInsideCompactAndLargeReaderBounds()
+            test.testOutlinePanelTextContrastExceedsWCAGAAInBothThemes()
+            try test.testOutlinePanelProvidesModalFocusAndDismissalContracts()
+            try test.testWelcomePrivacyCopyAcknowledgesExplicitSharing()
         }
-        print("LumaMDMacTests: 24 contracts passed")
+        print("LumaMDMacTests: 29 contracts passed")
     }
 
     @MainActor

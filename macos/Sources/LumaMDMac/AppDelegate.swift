@@ -29,7 +29,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
     public func applicationShouldTerminateAfterLastWindowClosed(
         _ sender: NSApplication
     ) -> Bool {
-        false
+        true
     }
 
     public static func configureWindow(

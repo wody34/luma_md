@@ -61,8 +61,8 @@ mkdir -p "$GENERATED" "$CLASSES" "$DEX" "$OUTPUT_DIR"
     --java "$GENERATED" \
     --min-sdk-version 26 \
     --target-sdk-version 36 \
-    --version-code 1 \
-    --version-name 1.0.0 \
+    --version-code 2 \
+    --version-name 1.0.1 \
     --auto-add-overlay \
     "$COMPILED_RES"
 

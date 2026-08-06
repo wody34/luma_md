@@ -21,7 +21,7 @@ enum ReaderStyles {
         font-size:calc(17px * var(--type-scale));line-height:1.72}
         a{color:var(--accent)}
         .page{width:min(100%,1240px);margin:0 auto;padding:44px 28px 120px}
-        .document-head,.reader-wrap,.outline{width:min(100%,var(--reader-measure))}
+        .document-head,.reader-wrap{width:min(100%,var(--reader-measure))}
         .document-head{margin:0 auto 28px}
         .eyebrow{display:flex;align-items:center;gap:10px;color:var(--accent);\
         font-size:12px;font-weight:750;letter-spacing:.16em;text-transform:uppercase}
@@ -73,14 +73,6 @@ enum ReaderStyles {
         th{background:var(--surface-raised);font-size:.8em;letter-spacing:.05em;text-transform:uppercase}
         hr{border:0;border-top:1px solid var(--border);margin:38px 0}
         .unsafe-link{color:var(--muted);text-decoration:line-through}
-        .outline{margin:24px auto 0;padding:20px 24px;\
-        border:1px solid var(--border-soft);border-radius:18px;background:var(--surface)}
-        .outline h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 12px}
-        .outline ul{list-style:none;margin:0;padding:0}
-        .outline li{margin:8px 0}
-        .outline .level-3{padding-left:16px}
-        .outline .level-4,.outline .level-5,.outline .level-6{padding-left:30px}
-        .back-to-reader{display:inline-block;margin-top:14px}
         @media(max-width:760px){.page{padding:28px 16px 100px}.reader-surface{padding:28px 22px}}
         @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
         """

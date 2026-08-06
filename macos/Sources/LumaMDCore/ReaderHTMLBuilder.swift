@@ -15,7 +15,6 @@ public struct ReaderHTMLBuilder {
         let safeFilename = escapeHTML(filename)
         let safeTitle = escapeHTML(document.title)
         let minutes = max(1, (document.wordCount + 199) / 200)
-        let outline = outlineHTML(document.headings)
         let policy = [
             "default-src &#39;none&#39;",
             "script-src &#39;none&#39;",
@@ -54,25 +53,9 @@ public struct ReaderHTMLBuilder {
         <main id="reader" class="reader-wrap">
         <article class="reader-surface" aria-label="Markdown document">\(document.html)</article>
         </main>
-        \(outline)
         </div>
         </body>
         </html>
-        """
-    }
-
-    private func outlineHTML(_ headings: [MarkdownDocument.Heading]) -> String {
-        let items = headings.map { heading in
-            let text = escapeHTML(heading.text)
-            let id = escapeAttribute(heading.id)
-            return "<li class=\"level-\(heading.level)\"><a href=\"#\(id)\">\(text)</a></li>"
-        }.joined()
-        return """
-        <aside id="outline" class="outline" aria-label="Document outline">
-        <h2>Outline</h2>
-        <ul>\(items)</ul>
-        <a class="back-to-reader" href="#reader">Back to reader</a>
-        </aside>
         """
     }
 
@@ -105,9 +88,5 @@ public struct ReaderHTMLBuilder {
             .replacingOccurrences(of: ">", with: "&gt;")
             .replacingOccurrences(of: "\"", with: "&quot;")
             .replacingOccurrences(of: "'", with: "&#39;")
-    }
-
-    private func escapeAttribute(_ value: String) -> String {
-        escapeHTML(value)
     }
 }

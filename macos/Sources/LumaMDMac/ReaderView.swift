@@ -9,6 +9,7 @@ struct ReaderView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var showsOutline = false
     @State private var scrollTarget: ReaderScrollTarget?
+    @FocusState private var focusedDockAction: ReaderDockAction?
 
     init(model: AppModel, note: ReaderNote) {
         _model = ObservedObject(wrappedValue: model)
@@ -46,20 +47,27 @@ struct ReaderView: View {
                     onExternalURL: openExternalURL
                 )
             }
+            .disabled(showsOutline)
+            .allowsHitTesting(!showsOutline)
+            .accessibilityHidden(showsOutline)
+
+            if showsOutline {
+                outlineOverlay
+                    .zIndex(1)
+            }
 
             ReaderDockView(
                 copyMarkdown: model.copyMarkdown,
                 shareMarkdown: model.shareMarkdown,
                 showOutline: presentOutline,
-                openDocument: model.openDocument
+                openDocument: model.openDocument,
+                focusedAction: $focusedDockAction
             )
             .padding(.bottom, 18)
-            .popover(isPresented: $showsOutline, arrowEdge: .bottom) {
-                OutlinePopover(headings: document.headings) { id in
-                    NativeQACapture.log("outline-select id=\(id)")
-                    scrollTarget = ReaderScrollTarget(headingID: id)
-                }
-            }
+            .disabled(showsOutline)
+            .allowsHitTesting(!showsOutline)
+            .accessibilityHidden(showsOutline)
+            .zIndex(2)
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("reader-screen")
@@ -75,6 +83,38 @@ struct ReaderView: View {
                 NativeQACapture.log("outline-request id=\(target.headingID)")
             }
         }
+    }
+
+    private var outlineOverlay: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .bottom) {
+                Color.black
+                    .opacity(colorScheme == .dark ? 0.28 : 0.10)
+                    .contentShape(Rectangle())
+                    .onTapGesture(perform: dismissOutline)
+                    .accessibilityHidden(true)
+
+                OutlinePopover(
+                    headings: document.headings,
+                    selectHeading: { id in
+                        NativeQACapture.log("outline-select id=\(id)")
+                        scrollTarget = ReaderScrollTarget(headingID: id)
+                        dismissOutline()
+                    },
+                    dismiss: dismissOutline
+                )
+                .frame(width: ReaderOutlineLayout.panelWidth(
+                    for: geometry.size.width
+                ))
+                .frame(maxHeight: ReaderOutlineLayout.panelMaximumHeight(
+                    for: geometry.size.height
+                ))
+                .padding(.top, ReaderOutlineLayout.topInset)
+                .padding(.bottom, ReaderOutlineLayout.dockClearance)
+            }
+        }
+        .transition(.opacity)
+        .accessibilityIdentifier("reader-outline-overlay")
     }
 
     private var readerHeader: some View {
@@ -169,12 +209,25 @@ struct ReaderView: View {
     }
 
     private func presentOutline() {
-        showsOutline.toggle()
-        NativeQACapture.log("outline-button action=pressed presented=\(showsOutline)")
+        if showsOutline {
+            dismissOutline()
+            return
+        }
+        showsOutline = true
+        NativeQACapture.log("outline-button action=pressed presented=true")
         if NativeQACapture.isEnabled {
             DispatchQueue.main.async {
                 NativeQACapture.captureWindow(named: "outline-open")
             }
+        }
+    }
+
+    private func dismissOutline() {
+        guard showsOutline else { return }
+        showsOutline = false
+        NativeQACapture.log("outline-dismiss action=pressed")
+        DispatchQueue.main.async {
+            focusedDockAction = .outline
         }
     }
 

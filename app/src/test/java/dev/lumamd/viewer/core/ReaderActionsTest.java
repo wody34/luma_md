@@ -34,9 +34,9 @@ public final class ReaderActionsTest {
                 ".reader-surface{-webkit-user-select:text;user-select:text;",
                 interactionFailures);
         assertContains(reader, "href=\"#actions\"");
-        assertContains(reader, "aria-label=\"Open reader actions\"");
+        assertContains(reader, "aria-label=\"More reading tools\"");
         assertContains(reader, "id=\"actions\"");
-        assertContains(reader, "aria-label=\"Reader actions\"");
+        assertContains(reader, "aria-label=\"Reading tools\"");
         assertContains(reader, "href=\"luma://copy\"");
         assertContains(reader, "aria-label=\"Copy Markdown\"");
         assertContains(reader, "href=\"luma://paste\"");

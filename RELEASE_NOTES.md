@@ -1,9 +1,15 @@
-# Luma MD 1.0.0
+# Luma MD 1.0.1
 
-First public release of the local-first Markdown reader for Android and macOS.
+Production UI and accessibility polish for the local-first Markdown reader on Android
+and macOS.
 
 ## Highlights
 
+- Clearer customer-facing labels, privacy language, error recovery, and reading tools
+- Android edge-to-edge safe-area handling for system bars, cutouts, and gesture navigation
+- macOS in-window outline with adaptive sizing, high-contrast light/dark surfaces,
+  keyboard focus containment, Escape dismissal, and VoiceOver modal semantics
+- Streamlined macOS document presentation without a duplicate in-page outline
 - Offline Markdown reading for `.md`, `.markdown`, `.mdown`, `.mkd`, `.mdx`, and text
 - Semantic MathML formulas with fractions, roots, limits, accents, fences, matrices,
   common paper notation, bounded parsing, and escaped fallback
@@ -18,8 +24,8 @@ First public release of the local-first Markdown reader for Android and macOS.
 
 - `luma-md-release.apk`: Android 8.0+ signed APK
 - `luma-md-release.apk.sha256`: Android SHA-256 checksum
-- `Luma-MD-macOS-v1.0.0-arm64.zip`: macOS 13+ Apple Silicon app archive
-- `Luma-MD-macOS-v1.0.0-arm64.zip.sha256`: macOS SHA-256 checksum
+- `Luma-MD-macOS-v1.0.1-arm64.zip`: macOS 13+ Apple Silicon app archive
+- `Luma-MD-macOS-v1.0.1-arm64.zip.sha256`: macOS SHA-256 checksum
 
 ## Signing and installation
 

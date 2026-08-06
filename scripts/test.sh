@@ -54,6 +54,8 @@ case "$SCOPE" in
         "$JAVA_HOME/bin/java" -ea -cp "$BUILD_DIR/classes" \
             dev.lumamd.viewer.core.AndroidManifestTest
         "$JAVA_HOME/bin/java" -ea -cp "$BUILD_DIR/classes" \
+            dev.lumamd.viewer.core.SafeAreaInsetsTest
+        "$JAVA_HOME/bin/java" -ea -cp "$BUILD_DIR/classes" \
             dev.lumamd.viewer.core.ReaderActionsTest
         "$JAVA_HOME/bin/java" -ea -cp "$BUILD_DIR/classes" \
             dev.lumamd.viewer.core.WebNavigationPolicyTest

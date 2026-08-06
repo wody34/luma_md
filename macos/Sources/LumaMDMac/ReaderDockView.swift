@@ -41,14 +41,13 @@ struct ReaderDockView: View {
     let shareMarkdown: () -> Void
     let showOutline: () -> Void
     let openDocument: () -> Void
+    let focusedAction: FocusState<ReaderDockAction?>.Binding
 
     var body: some View {
         HStack(spacing: 4) {
             ForEach(ReaderDockAction.primary, id: \.self) { item in
                 dockButton(
-                    item.title,
-                    systemImage: item.systemImage,
-                    identifier: item.identifier,
+                    item,
                     action: { perform(item) }
                 )
             }
@@ -78,13 +77,11 @@ struct ReaderDockView: View {
     }
 
     private func dockButton(
-        _ title: String,
-        systemImage: String,
-        identifier: String,
+        _ item: ReaderDockAction,
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
-            Label(title, systemImage: systemImage)
+            Label(item.title, systemImage: item.systemImage)
                 .font(.system(size: 12, weight: .semibold))
                 .labelStyle(.titleAndIcon)
                 .padding(.horizontal, 11)
@@ -92,6 +89,7 @@ struct ReaderDockView: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityIdentifier(identifier)
+        .focused(focusedAction, equals: item)
+        .accessibilityIdentifier(item.identifier)
     }
 }

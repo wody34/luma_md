@@ -32,8 +32,8 @@ final class ReaderHTMLBuilderTests: XCTestCase {
         assertContains(html, "<main id=\"reader\"")
         assertContains(html, "<article class=\"reader-surface\" aria-label=\"Markdown document\">")
         assertContains(html, document.html)
-        assertContains(html, "<aside id=\"outline\"")
-        assertContains(html, "href=\"#reader\"")
+        assertNotContainsCaseInsensitive(html, "<aside id=\"outline\"")
+        assertNotContainsCaseInsensitive(html, "Back to reader")
     }
 
     func testEmitsBothThemeTokenSetsAndAllSupportedTypeScales() {
@@ -91,7 +91,7 @@ final class ReaderHTMLBuilderTests: XCTestCase {
         assertContains(html, ".page{width:min(100%,1240px)")
         assertContains(
             html,
-            ".document-head,.reader-wrap,.outline{width:min(100%,var(--reader-measure))"
+            ".document-head,.reader-wrap{width:min(100%,var(--reader-measure))"
         )
         assertContains(html, "body{margin:0")
         assertContains(html, "-webkit-user-select:none;user-select:none")

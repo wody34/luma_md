@@ -248,7 +248,8 @@ enum NativeQACapture {
         let view = NSHostingView(
             rootView: OutlinePopover(
                 headings: headings,
-                selectHeading: { _ in }
+                selectHeading: { _ in },
+                dismiss: {}
             )
             .preferredColorScheme(.light)
             .background(Color(nsColor: .windowBackgroundColor))
